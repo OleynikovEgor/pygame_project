@@ -7,27 +7,46 @@ class Bot:
         self.board = [[0 for i in range(12)] for j in range(12)]
 
     def generate_placement(self):
-        used = [[0] * 12 for i in range(12)]
+        self.used = [[0] * 12 for i in range(12)]
         pos = choice([0, 1])
         if pos:
             x, y = randint(1, 7), randint(1, 10)
             for i in range(4):
                 self.board[x + i][y] = 1
+                for dx in range(-1, 2):
+                    for dy in range(-1, 2):
+                        self.used[x + i + dx][y + dy] = 1
         else:
             x, y = randint(1, 10), randint(1, 7)
             for i in range(4):
                 self.board[x][y + i] = 1
+                for dx in range(-1, 2):
+                    for dy in range(-1, 2):
+                        self.used[x + dx][y + i + dy] = 1
 
-        '''for sheep in range(2):
+        count = 0
+        while count < 2:
             pos = choice([0, 1])
             if pos:
-                x, y = randint(0, 6), randint(0, 9)
-                for i in range(4):
+                x, y = randint(1, 8), randint(1, 10)
+                if self.used[x][y] or self.used[x+1][y] or self.used[x+2][y]:
+                    continue
+                for i in range(3):
                     self.board[x + i][y] = 1
+                    for dx in range(-1, 2):
+                        for dy in range(-1, 2):
+                            self.used[x + i + dx][y + dy] = 1
+                count += 1
             else:
-                x, y = randint(0, 9), randint(0, 6)
-                for i in range(4):
-                    self.board[x][y + i] = 1'''
+                x, y = randint(1, 10), randint(1, 8)
+                if self.used[x][y] or self.used[x][y+1] or self.used[x][y+2]:
+                    continue
+                for i in range(3):
+                    self.board[x][y + i] = 1
+                    for dx in range(-1, 2):
+                        for dy in range(-1, 2):
+                            self.used[x + dx][y + i + dy] = 1
+                count += 1
 
 
 def except_hook(cls, exception, traceback):    sys.__excepthook__(cls, exception, traceback)
@@ -39,3 +58,6 @@ if __name__ == "__main__":
     bot.generate_placement()
     for i in range(1, 11):
         print(*bot.board[i][1:11])
+    print()
+    for i in range(1, 11):
+        print(*bot.used[i][1:11])
