@@ -1,61 +1,93 @@
 import pygame
 import pygame_menu as pm
 
-class Menu():
-    pygame.init()
+pygame.init()
 
-    WIDTH, HEIGHT = 700, 600
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+WIDTH, HEIGHT = 700, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
-    RED = (255, 0, 0)
-    GREEN = (0, 255, 0)
-    BLUE = (0, 0, 255)
-    CYAN = (0, 100, 100)
-    BLACK = (0, 0, 0)
-    WHITE = (255, 255, 255)
-    SETT = (102, 255, 153)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+CYAN = (0, 100, 100)
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+SETT = (102, 255, 153)
 
-    if __name__ == "__main__":
-        settings = pm.Menu(title="Настройки",
-                           width=WIDTH,
-                           height=HEIGHT,
-                           theme=pm.themes.THEME_BLUE)
+if __name__ == "__main__":
+    difficulty = pm.Menu(title="Выберите сложность",
+                         width=WIDTH,
+                         height=HEIGHT,
+                         theme=pm.themes.THEME_BLUE)
 
-        settings._theme.widget_font_size = 25
-        settings._theme.widget_font_color = BLACK
-        settings._theme.widget_alignment = pm.locals.ALIGN_LEFT
+    difficulty._theme.widget_font_size = 30
+    difficulty._theme.widget_font_color = GREEN
+    difficulty._theme.widget_alignment = pm.locals.ALIGN_CENTER
 
+    difficulty.add.selector('Сложность:  ', [('Easy', 1), ('Medium', 2), ('Hard', 3)])
 
-        settings.add.toggle_switch(
-            title="Music", default=True, toggleswitch_id="music")
-        settings.add.toggle_switch(
-            title="Sounds", default=True, toggleswitch_id="sound")
+    # ---------------------------------------------------------------------------------------------------
 
-        settings.add.button(title="")
+    player = pm.Menu(title="Выберите количество игроков",
+                     width=WIDTH,
+                     height=HEIGHT,
+                     theme=pm.themes.THEME_BLUE)
 
-        settings.add.button(title="Return To Main Menu",
-                            action=pm.events.BACK, align=pm.locals.ALIGN_CENTER, background_color=RED, font_color=WHITE)
+    player._theme.widget_font_size = 25
+    player._theme.widget_font_color = BLACK
+    player._theme.widget_alignment = pm.locals.ALIGN_CENTER
 
-        mainMenu = pm.Menu(title="Морской Бой",
-                           width=WIDTH,
-                           height=HEIGHT,
-                           theme=pm.themes.THEME_BLUE)
+    player.add.button(title=' 1 player ', action=difficulty,
+                      font_color=WHITE, background_color=GREEN, font_size=30)
 
-        mainMenu._theme.widget_alignment = pm.locals.ALIGN_CENTER
+    player.add.label(title="")
 
-        mainMenu.add.button(title="Играть",
-                            font_color=WHITE, background_color=GREEN)
+    player.add.button(title='2 players',
+                      font_color=WHITE, background_color=GREEN, font_size=30)
 
-        mainMenu.add.label(title="")
+    # ----------------------------------------------------------------------------------------------------
 
-        mainMenu.add.button(title="Настройки", action=settings,
-                            font_color=WHITE, background_color=SETT)
+    settings = pm.Menu(title="Настройки",
+                       width=WIDTH,
+                       height=HEIGHT,
+                       theme=pm.themes.THEME_BLUE)
 
-        mainMenu.add.label(title="")
+    settings._theme.widget_font_size = 25
+    settings._theme.widget_font_color = BLACK
+    settings._theme.widget_alignment = pm.locals.ALIGN_LEFT
 
-        mainMenu.add.button(title="Выход", action=pm.events.EXIT,
-                            font_color=WHITE, background_color=RED)
+    settings.add.toggle_switch(
+        title="Music", default=True, toggleswitch_id="music")
+    settings.add.toggle_switch(
+        title="Sounds", default=True, toggleswitch_id="sound")
 
-        mainMenu.mainloop(screen)
+    settings.add.button(title="")
 
+    settings.add.button(title="Return To Main Menu",
+                        action=pm.events.BACK, align=pm.locals.ALIGN_CENTER,
+                        background_color=RED, font_color=WHITE)
 
+    # ----------------------------------------------------------------------------------------------------
+
+    mainMenu = pm.Menu(title="Морской Бой",
+                       width=WIDTH,
+                       height=HEIGHT,
+                       theme=pm.themes.THEME_BLUE)
+
+    mainMenu._theme.widget_font_size = 30
+    mainMenu._theme.widget_alignment = pm.locals.ALIGN_CENTER
+
+    mainMenu.add.button(title="Играть", action=player,
+                        font_color=WHITE, background_color=GREEN)
+
+    mainMenu.add.label(title="")
+
+    mainMenu.add.button(title="Настройки", action=settings,
+                        font_color=WHITE, background_color=SETT)
+
+    mainMenu.add.label(title="")
+
+    mainMenu.add.button(title="Выход", action=pm.events.EXIT,
+                        font_color=WHITE, background_color=RED)
+
+    mainMenu.mainloop(screen)
