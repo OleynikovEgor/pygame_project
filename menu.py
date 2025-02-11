@@ -14,17 +14,29 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 SETT = (102, 255, 153)
 
+pygame.mixer.init()
+pygame.mixer.music.load('background_music.ogg')
+pygame.mixer.music.play(-1)
+play = 1
+
 if __name__ == "__main__":
     difficulty = pm.Menu(title="Выберите сложность",
                          width=WIDTH,
                          height=HEIGHT,
                          theme=pm.themes.THEME_BLUE)
 
+    sound = pygame.mixer.Sound('button_sound.ogg')
+
     difficulty._theme.widget_font_size = 30
     difficulty._theme.widget_font_color = GREEN
     difficulty._theme.widget_alignment = pm.locals.ALIGN_CENTER
 
     difficulty.add.selector('Сложность:  ', [('Easy', 1), ('Medium', 2), ('Hard', 3)])
+
+    difficulty.add.label('')
+
+    difficulty.add.button(title=' Начать игру ',
+                      font_color=WHITE, background_color=GREEN)
 
     # ---------------------------------------------------------------------------------------------------
 
@@ -47,6 +59,16 @@ if __name__ == "__main__":
 
     # ----------------------------------------------------------------------------------------------------
 
+    def music_sound(music):
+        global play
+        if play:
+            pygame.mixer.music.pause()
+            play = 0
+        else:
+            pygame.mixer.music.play(-1)
+            play = 1
+
+
     settings = pm.Menu(title="Настройки",
                        width=WIDTH,
                        height=HEIGHT,
@@ -57,7 +79,8 @@ if __name__ == "__main__":
     settings._theme.widget_alignment = pm.locals.ALIGN_LEFT
 
     settings.add.toggle_switch(
-        title="Music", default=True, toggleswitch_id="music")
+        title="Music", default=True, toggleswitch_id="music", onchange=music_sound)
+
     settings.add.toggle_switch(
         title="Sounds", default=True, toggleswitch_id="sound")
 
