@@ -4,11 +4,11 @@ from random import randint, choice
 
 class Bot:
     def __init__(self):
-        self.board = [[0 for i in range(12)] for j in range(12)]
+        self.board = [[0 for i in range(12)] for j in range(12)]  # Доска хранится в формате 12х12
 
-    def generate_placement(self):
+    def generate_placement(self):  # Генерация расстановки
         self.used = [[0] * 12 for i in range(12)]
-        pos = choice([0, 1])
+        pos = choice([0, 1])  # Расстановка четырехпалубного корабля
         if pos:
             x, y = randint(1, 7), randint(1, 10)
             for i in range(4):
@@ -24,7 +24,7 @@ class Bot:
                     for dy in range(-1, 2):
                         self.used[x + dx][y + i + dy] = 1
 
-        count = 0
+        count = 0  # Расстановка трехпалубных кораблей
         while count < 2:
             pos = choice([0, 1])
             if pos:
@@ -48,7 +48,7 @@ class Bot:
                             self.used[x + dx][y + i + dy] = 1
                 count += 1
 
-        count = 0
+        count = 0  # Расстановка двухпалубных кораблей
         while count < 3:
             pos = choice([0, 1])
             if pos:
@@ -71,6 +71,18 @@ class Bot:
                         for dy in range(-1, 2):
                             self.used[x + dx][y + i + dy] = 1
                 count += 1
+
+        for c in range(4):  # Расстановка однопалубных кораблей
+            clear = []
+            for x in range(1, 11):
+                for y in range(1, 11):
+                    if not self.used[x][y]:
+                        clear.append((x, y))
+            x, y = choice(clear)
+            self.board[x][y] = 1
+            for dx in range(-1, 2):
+                for dy in range(-1, 2):
+                    self.used[x + dx][y + dy] = 1
 
 
 def except_hook(cls, exception, traceback):
