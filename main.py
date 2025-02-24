@@ -1,6 +1,7 @@
 import sys
 from random import randint, choice, random
 
+
 class Bot:
     def __init__(self, hard_lvl):
         self.board = [[0 for i in range(12)] for j in range(12)]
@@ -111,29 +112,31 @@ class Bot:
                         return x, y, False, None, None
 
     def boat_is_killed(self, x, y):
-        boat = [(x, y)]
+        boat = set()
         board = self.player_board
-        d = 1
-        while d <= x and board[x - d][y]:
+        d = 0
+        while 0 <= x - d - 1 <= 9 and board[x - d - 1][y]:
             d += 1
-        while d + x < 10 and board[x - d][y]:
-            d -= 1
-            if not self.shotted[x-d+1][y+1]:
+        while 0 <= x - d <= 9 and board[x - d][y]:
+            if not self.shotted[x - d + 1][y + 1]:
                 return False
-            boat.append((x, y))
-        d = 1
-        while d <= y and board[x][y - d]:
+            boat.add((x - d, y))
+            d -= 1
+        d = 0
+        while 0 <= y - d - 1<= 9 and board[x][y - d - 1]:
             d += 1
-        while d + y < 10 and board[x][y - d]:
-            d -= 1
-            if not self.shotted[x+1][y-d+1]:
+        while 0 <= y - d <= 9 and board[x][y - d]:
+            if not self.shotted[x + 1][y - d + 1]:
                 return False
-            boat.append((x, y))
-        boat.sort()
+            boat.add((x, y - d))
+            d -= 1
+        boat = sorted(list(boat))
         return True, boat
+
 
 def except_hook(cls, exception, traceback):
     sys.__excepthook__(cls, exception, traceback)
+
 
 hard_level = [0, 0.2, 0.4, 0.6, 0.8]
 
@@ -142,9 +145,22 @@ if __name__ == "__main__":
     sys.excepthook = except_hook
     bot.generate_placement()
     player_b = []
+    bot.board = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                 [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+                 [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0],
+                 [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+                 [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+                 [0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+                 [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                 [0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0],
+                 [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                 [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
     for i in range(1, 11):
         print(*bot.board[i][1:11])
         player_b.append(bot.board[i][1:11])
     bot.add_player_board(player_b)
     for i in range(8):
         print(bot.shot())
+
