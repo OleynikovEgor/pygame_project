@@ -111,7 +111,7 @@ class Bot:
                         self.shotted[x + 1][y + 1] = 1
                         return x, y, False, None, None
 
-    def boat_is_killed(self, x, y):
+    def boat_is_killed(self, x, y):  # Проверка, что корабль игрока полность потоплен
         boat = set()
         board = self.player_board
         d = 0
@@ -123,7 +123,7 @@ class Bot:
             boat.add((x - d, y))
             d -= 1
         d = 0
-        while 0 <= y - d - 1<= 9 and board[x][y - d - 1]:
+        while 0 <= y - d - 1 <= 9 and board[x][y - d - 1]:
             d += 1
         while 0 <= y - d <= 9 and board[x][y - d]:
             if not self.shotted[x + 1][y - d + 1]:
@@ -145,22 +145,9 @@ if __name__ == "__main__":
     sys.excepthook = except_hook
     bot.generate_placement()
     player_b = []
-    bot.board = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                 [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-                 [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0],
-                 [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-                 [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
-                 [0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-                 [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                 [0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0],
-                 [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                 [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
     for i in range(1, 11):
         print(*bot.board[i][1:11])
         player_b.append(bot.board[i][1:11])
     bot.add_player_board(player_b)
     for i in range(8):
         print(bot.shot())
-
