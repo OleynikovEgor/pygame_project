@@ -238,7 +238,7 @@ def boarder(pl_board):
             elapsed_time = end_time - start_time
             print(elapsed_time)
             with open('record', 'r', encoding='utf-8') as file:
-                content = file.read()
+                content = file.readline().strip()
             if content:
                 if int(content) > int(elapsed_time):
                     with open('record', 'w', encoding='utf-8') as file:
