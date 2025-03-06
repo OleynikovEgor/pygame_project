@@ -14,8 +14,8 @@ def final(winner, time):
     text_time = font.render(f'Время: {time // 60} мин {time % 60} с', True, (255, 37, 37))
     rec_rect = (50, 140)
     with open('record', 'r', encoding='utf-8') as file:
-        content = file.read()
-        print(content)
+        content = file.readline().strip()
+        print(content.strip())
     if content:
         rec_time = content
         text_record = font.render(f'Рекорд: {int(rec_time) // 60} мин {int(rec_time) % 60} с', True, (255, 37, 37))
