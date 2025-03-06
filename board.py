@@ -2,10 +2,15 @@ import pygame
 import sys
 import time
 from bot import Bot
+from final import final
+
+start_time = time.time()
 
 
 def boarder(pl_board):
     screen = pygame.display.set_mode((1000, 800))
+    explosion_image = pygame.image.load("explosion.png")
+    explosion_image = pygame.transform.scale(explosion_image, (30, 30))
     pygame.display.set_caption('В бой!')
     pygame.font.init()
     letters = ['а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к']
@@ -222,8 +227,25 @@ def boarder(pl_board):
                     coin2 += 1
         if coin1 == 20:
             print('Победил бот')
-            break
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            print(elapsed_time)
+            running = False
+            final('Победил бот', elapsed_time)
         elif coin2 == 20:
             print('Победил игрок')
-            break
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            print(elapsed_time)
+            with open('record', 'r', encoding='utf-8') as file:
+                content = file.read()
+            if content:
+                if int(content) > int(elapsed_time):
+                    with open('record', 'w', encoding='utf-8') as file:
+                        file.write(f'{int(elapsed_time) // 1}')
+            else:
+                with open('record', 'w', encoding='utf-8') as file:
+                    file.write(f'{int(elapsed_time)}')
+            running = False
+            final('Победил игрок', int(elapsed_time))
         pygame.display.flip()
