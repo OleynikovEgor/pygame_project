@@ -122,6 +122,7 @@ def ships():
                     offset_x = ship41.x - mouse_x
                     offset_y = ship41.y - mouse_y
                 elif event.button == 1 and game_button.collidepoint(event.pos):
+                    running = False
                     boarder(player_board.board)
 
             elif event.type == pygame.MOUSEBUTTONUP:
