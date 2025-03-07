@@ -1,4 +1,4 @@
-    import pygame
+import pygame
 import sys
 import time
 from bot import Bot
@@ -9,8 +9,6 @@ start_time = time.time()
 
 def boarder(pl_board):
     screen = pygame.display.set_mode((1000, 800))
-    explosion_image = pygame.image.load("explosion.png")
-    explosion_image = pygame.transform.scale(explosion_image, (30, 30))
     pygame.display.set_caption('В бой!')
     pygame.font.init()
     letters = ['а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к']
