@@ -13,10 +13,11 @@ def final(winner, time):
     text_time_rect = (50, 80)
     text_time = font.render(f'Время: {time // 60} мин {time % 60} с', True, (255, 37, 37))
     rec_rect = (50, 140)
-    with open('record', 'r', encoding='utf-8') as file:
-        content = file.readline().strip()
-        rec_time = int(content)
-        text_record = font.render(f'Рекорд: {int(rec_time) // 60} мин {int(rec_time) % 60} с', True, (255, 37, 37))
+    if winner == 'Победил игрок':
+        with open('record', 'r', encoding='utf-8') as file:
+            content = file.readline().strip()
+            rec_time = int(content)
+            text_record = font.render(f'Рекорд: {int(rec_time) // 60} мин {int(rec_time) % 60} с', True, (255, 37, 37))
     running = True
     while running:
         screen.fill((51, 153, 255))
