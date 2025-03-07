@@ -107,9 +107,9 @@ class Bot:
                 for y in range(10):
                     if not self.shotted[x + 1][y + 1] and not self.player_board[x][y]:
                         clear.append((x, y))
-                        x, y = choice(clear)
-                        self.shotted[x + 1][y + 1] = 1
-                        return x, y, False, None, None
+            x, y = choice(clear)
+            self.shotted[x + 1][y + 1] = 1
+            return x, y, False, None, None
 
     def boat_is_killed(self, x, y):  # Проверка, что корабль игрока полность потоплен
         boat = set()
