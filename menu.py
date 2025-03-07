@@ -1,5 +1,7 @@
 import pygame
 import pygame_menu as pm
+import pygame_menu.events
+
 from ships_placement import ships
 
 pygame.init()
@@ -30,7 +32,7 @@ if __name__ == "__main__":
                          height=HEIGHT,
                          theme=pm.themes.THEME_BLUE)
 
-    #
+    # # sound = pygame.mixer.Sound('button_sound.ogg')
     #
     # difficulty._theme.widget_font_size = 30
     # difficulty._theme.widget_font_color = GREEN
