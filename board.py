@@ -1,4 +1,4 @@
-import pygame
+    import pygame
 import sys
 import time
 from bot import Bot
@@ -225,14 +225,14 @@ def boarder(pl_board):
                     coin1 += 1
                 if player_board.board_pl[i][j] == 100:
                     coin2 += 1
-        if coin1 == 20:
+        if coin2 == 20:
             print('Победил бот')
             end_time = time.time()
             elapsed_time = end_time - start_time
             print(elapsed_time)
             running = False
-            final('Победил бот', elapsed_time)
-        elif coin2 == 20:
+            final('Победил бот', int(elapsed_time))
+        elif coin1 == 20:
             print('Победил игрок')
             end_time = time.time()
             elapsed_time = end_time - start_time
